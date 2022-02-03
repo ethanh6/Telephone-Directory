@@ -72,6 +72,9 @@ transaction = TelephoneDir.constructor().buildTransaction(
     }
 )
 
+# update nonce
+nonce += 1
+
 # 6.b Sign the transaction with private key
 signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_key)
 print("Deploying Contract!")
@@ -84,41 +87,50 @@ print("Waiting for transaction to finish...")
 tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 print(f"Well done! Contract deployed to {tx_receipt.contractAddress}")
 
+print()
+
 
 # 7. Interact with a deployed contracts (requires contract Address and contract ABI)
 print("Interacting with the contract")
 telephone_directory = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
 
 # this is function call, does not make any state change
-print(f"Initial Amount of People = {telephone_directory.functions.get_total_people_amount().call()}")
+print(f"Initial Amount of People = {telephone_directory.functions.get_total_people_number().call()}")
 
 print("Please add a People!")
-name = str(input("Enter name: "))
-number = int(input("Enter number: "))
+# name = str(input("Enter name: "))
+# number = int(input("Enter number: "))
+name, number = "Abc", 120
 
 # build transaction, this makes state changes to the blockchain
-print("Building transaction")
+print("Building transaction...")
 tx = telephone_directory.functions.add_people(name, number).buildTransaction(
     {
         "chainId": chain_id,
         "gasPrice": w3.eth.gas_price,  # this can be set to whatever
         "from": my_address,
-        "nonce": nonce + 1,
+        "nonce": nonce,
     }
 )
 
 # sign transaction
-print("Signing transaction")
+print("Signing transaction...")
 signed_tx = w3.eth.account.sign_transaction(
     tx, private_key=private_key
 )
 
 # send the signed transaction
-print("Sending the signed transaction")
+print("Sending the signed transaction...")
 tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
 print("Updating stored Value...")
 
 # wait for confirmation
 print("Waiting for the confirmation...")
 tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-print(f"Well done! Contract deployed to {tx_receipt.contractAddress}")
+print(f"Transaction done! Tx hash: {tx_receipt.transactionHash.hex()}")
+
+
+# this is function call, does not make any state change
+print(f"Updated amount of People = {telephone_directory.functions.get_total_people_number().call()}")
+print(f"Info or the new people = {telephone_directory.functions.get_info().call()}")

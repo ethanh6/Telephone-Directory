@@ -6,8 +6,10 @@ contract People {
     uint256 number;
     address owner;
 
-    constructor (address _owner) public {
-        owner = _owner;
+    constructor (string memory _name, uint256 _number) public {
+        owner = msg.sender;
+        name = _name;
+        number = _number;
     }
 
     modifier onlyOwner {
@@ -15,19 +17,19 @@ contract People {
         _;
     } 
 
-    function set_name (string memory _name) public onlyOwner {
+    function set_name (string memory _name) onlyOwner public {
         name = _name;
     }
 
-    function set_number (uint256 _number) public onlyOwner {
+    function set_number (uint256 _number) onlyOwner public {
         number = _number;
     }
 
-    function get_name() public view onlyOwner returns (string memory) {
+    function get_name() public view returns (string memory) {
         return name;
     }
 
-    function get_number() public view onlyOwner returns (uint256) {
+    function get_number() public view returns (uint256) {
         return number;
     }
 }
@@ -39,9 +41,7 @@ contract TelephoneDirectory {
     mapping(address => uint256) public address_to_idx;
 
     function add_people(string memory name, uint256 number) public {
-        People p = new People(address(msg.sender));
-        p.set_name(name);
-        p.set_number(number);
+        People p = new People(name, number);
         people.push(p);
         address_to_idx[msg.sender] = peopleIndex;
         peopleIndex ++;

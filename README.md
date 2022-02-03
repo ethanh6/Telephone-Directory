@@ -1,25 +1,26 @@
 # Web3.py demo 
-Learning Web3.py will clarify everything behind the scene when using frameworks like Brownie.
+Using Web3.py will clarify everything behind the scene when using frameworks like Hardhat or Brownie
 
-- IDE: VS Code, Vim, etc.
-- Ganache
-    1. a local simulated blockchain environment for development purpose (similar to Rinkeby testnet, but local)
-    2. has both GUI (good user interface to check the local blockchain state) and CLI, `ganache-cli` (that brownie uses)
-        1. install ganache-cli: install Nodejs and Yarn
-    3.  also has simulated accounts with balance, address, private key and mnemonics
+### To run the file
+1. ```$ ganache ``` -> this launch the local blockchain development environment
+1. ```$ pip install -r requirements.txt ``` 
+2. ```$ python3 deploy.py```
 
 ### File Structure
 
 - `TelephoneDirectory.sol` : all contracts code here
 - `deploy.py` : deploy python script using Web3.py
 - `.env` : store all environment variables (testing addresses and private keys)
-- `.gitignore` 
-    - make sure to put `.env` 
+    1. `export PRIVATE_KEY=0xabcde...`  (need to set up `.gitignore` - it’s volatile and dangerous, not recommended)
+    2. use `python-dotenv` package to pull the env var directly in python.
+- `.gitignore` : make sure to put `.env` 
+- `requirements.txt` : python dependencies
 
-### Use environment variable to set private key: `.env`
-
-1. `export PRIVATE_KEY=0xabcde...`  (need to set up `.gitignore` - it’s volatile and dangerous, not recommended)
-2. use `python-dotenv` package to pull the env var directly in python.
+### Ganache
+1. a local simulated blockchain environment for development purpose (similar to Rinkeby testnet, but local)
+2. has both GUI and CLI
+3. npm install ganache
+4. simulated accounts with balance, address, private key and mnemonics
 
 ### deploy.py → details about the steps for deploying a contract on chain
 

@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.6.0;
+
 contract People {
+
     string name;
     uint256 number;
     address owner;

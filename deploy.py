@@ -98,9 +98,8 @@ telephone_directory = w3.eth.contract(address=tx_receipt.contractAddress, abi=ab
 print(f"Initial Amount of People = {telephone_directory.functions.get_total_people_number().call()}")
 
 print("Please add a People!")
-# name = str(input("Enter name: "))
-# number = int(input("Enter number: "))
-name, number = "Abc", 120
+name = str(input("Enter name: "))
+number = int(input("Enter number: "))
 
 # build transaction, this makes state changes to the blockchain
 print("Building transaction...")
